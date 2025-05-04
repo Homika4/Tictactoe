@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tic tac toe</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="board">
+ {% for row in range(3) %}
+    <div class="row">
+        {% for col in range(3) %}
+        <form method="POST" action="/play">
+            <input type="hidden" name="row" value="{{ row }}">
+            <input type="hidden" name="col" value="{{ col }}">
+            <button class="cell" type="submit" {% if end %}disabled{% endif %}>
+                {{ grille[row][col] }}
+            </button>
+        </form>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</div>
+
+ <form method="POST" action="/reset">
+     <button type="submit" class="reset-button">Réinitialiser</button>
+ </form>
+
+{% if reset_message %}
+<script>
+    alert("Grille réinitialisée !");
+</script>
+{% endif %}
+
+{% if winner == "X" %}
+<p class="message">🎉 Le gagnant est X !</p>
+{% elif winner == "O" %}
+<p class="message">🎉 Le gagnant est O !</p>
+{% elif winner == "Égalité" %}
+<p class="message">😐 Match nul !</p>
+{% endif %}
+
+
+</body>
+</html>
